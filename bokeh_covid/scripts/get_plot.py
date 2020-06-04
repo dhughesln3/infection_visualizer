@@ -10,7 +10,6 @@ from scripts.get_infections import get_infections
 def plot():
 
     # Set up initial parameters
-    N = 200
     x = range(11)
     y = get_infections(10,.2, 1, 2)
     source = ColumnDataSource(data=dict(x=x, y=y))
@@ -26,9 +25,10 @@ def plot():
 
     # Set up widgets
     trans_prob = Slider(title="Person-to-person transmission probability", value=0.2, start=0.0, end=1.0, step=0.01)
-    population = Slider(title="Population", value=10, start=0, end=140, step=1)
+    population = Slider(title="Community population", value=10, start=0, end=140, step=1)
     prop_infected = Slider(title="Initial proportion of population infected", value=.2, start=0.0, end=1, step=.01)
     days = Slider(title="Number of days", value=1, start=1, end=14, step=1)
+    mean = Paragraph(text="Expected number of infected people: "+str(round(E(y),2)))
 
 
 
@@ -50,6 +50,9 @@ def plot():
         x = range(pop+1)
         y = get_infections(pop, t, d, int(inf*pop))
 
+        # update expectation
+        mean.text="Expected number of people infected: "+str(round(E(y),2))
+
         #re-scale so that relevant part of x-axis stays in view
         plot.x_range.end=0
         plot.x_range.end=pop
@@ -67,9 +70,9 @@ def plot():
 
 
     # Set up layouts and add to document
-    inputs = widgetbox(population,trans_prob,prop_infected,days)
+    inputs = widgetbox(population,trans_prob,prop_infected,days,mean)
     layout = row(plot,
-                 widgetbox(population,trans_prob,prop_infected,days))
+                 widgetbox(population,trans_prob,prop_infected,days,mean))
 
 
 
