@@ -1,9 +1,9 @@
 import bokeh.plotting.figure as bk_figure
 from bokeh.layouts import row, widgetbox
 from bokeh.models import ColumnDataSource
-from bokeh.models.widgets import Slider
+from bokeh.models.widgets import Slider, Paragraph
 import numpy as np
-from scripts.get_infections import get_infections
+from scripts.get_infections import get_infections, E
 
 
 
